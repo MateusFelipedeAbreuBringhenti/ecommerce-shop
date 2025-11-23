@@ -1,96 +1,78 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { ProductDTO } from "../dtos/product.dto";
-import { FormattedNumber, IntlProvider } from "react-intl";
-import { Button } from "@/components/ui/button";
+import { FormattedNumber, IntlProvider } from 'react-intl';
 import { useCart } from "@/contexts/cart-context";
-
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 type ProductCardProps = {
-  product: ProductDTO;
-};
-
-export function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
-
-function handleAddToCart() {
-  
-  const rawId =
-    (product as any).id ?? (product as any)._id ?? (product as any).uuid;
-  const id = rawId != null ? String(rawId) : `${product.name}-${Date.now()}`;
-
-  const price = Number((product as any).price ?? 0);
-
-  addToCart({
-    id,
-    name: product.name,
-    price,
-    image: (product as any).image ?? "",
-    quantity: 1,
-  });
+    product: ProductDTO
 }
 
-  return (
-    <Card>
-      <CardHeader>
-        { (product as any).image && (
-          <img
-            src={(product as any).image}
-            alt={product.name}
-            className="w-full h-48 object-cover rounded-md"
-          />
-        ) }
-      </CardHeader>
+export function ProductCard({ product }: ProductCardProps) {
+    const { addToCart } = useCart();
 
-      <CardContent>
-        <h4>{product.name}</h4>
+    function handleAddToCart() {
+        addToCart({
+            id: product.id ?? "",
+            name: product.name,
+            price: product.price,
+            image: (product as any).image ?? "",
+            quantity: 1,
+        });
+    }
 
-        <div className="w-full flex flex-col">
-          <p>
-            <IntlProvider locale="pt-BR">
-              <FormattedNumber
-                value={product.price}
-                style="currency"
-                currency="BRL"
-              />{" "}
-              Kg
-            </IntlProvider>
-          </p>
+    return (
+        <Card>
+            <CardHeader>
+                <Link to={`/product/${product.id}`}>
+                    {product.image ? (
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-48 object-cover rounded-md"
+                        />
+                    ) : (
+                        <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500">
+                            Sem imagem
+                        </div>
+                    )}
+                </Link>
+            </CardHeader>
 
-          <p>
-            <IntlProvider locale="pt-BR">
-              <FormattedNumber
-                value={product.price}
-                style="currency"
-                currency="BRL"
-              />{" "}
-              em 10x de{" "}
-              <FormattedNumber
-                value={product.price / 10}
-                style="currency"
-                currency="BRL"
-              />
-            </IntlProvider>
-          </p>
+            <CardContent>
+                <Link to={`/product/${product.id}`}>
+                    <h4 className="font-semibold text-lg">{product.name}</h4>
+                </Link>
 
-          <p>
-            ou{" "}
-            <IntlProvider locale="pt-BR">
-              <FormattedNumber
-                value={product.price * 0.9}
-                style="currency"
-                currency="BRL"
-              />
-            </IntlProvider>{" "}
-            no PIX
-          </p>
-        </div>
+                <div className="w-full flex flex-col mt-2 gap-1">
+                    <p>
+                        <IntlProvider locale="pt-BR">
+                            <FormattedNumber value={product.price} style="currency" currency="BRL"/> Kg
+                        </IntlProvider>
+                    </p>
+                    <p>
+                        <IntlProvider locale="pt-BR">
+                            <FormattedNumber value={product.price} style="currency" currency="BRL"/> em 10x de 
+                            <FormattedNumber value={product.price / 10} style="currency" currency="BRL"/>
+                        </IntlProvider>
+                    </p>
+                    <p>
+                        ou
+                        <IntlProvider locale="pt-BR">
+                            <FormattedNumber value={product.price * 0.9} style="currency" currency="BRL"/>
+                        </IntlProvider>
+                        no PIX
+                    </p>
+                </div>
 
-        <div className="mt-3">
-          <Button onClick={handleAddToCart} className="w-full">
-            Adicionar ao carrinho
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
+                <Button
+                    className="mt-4 w-full"
+                    onClick={handleAddToCart}
+                >
+                    Adicionar ao carrinho
+                </Button>
+            </CardContent>
+        </Card>
+    )
 }

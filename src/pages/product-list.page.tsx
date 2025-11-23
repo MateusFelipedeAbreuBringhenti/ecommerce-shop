@@ -2,7 +2,7 @@ import { CategoryMenu } from "@/cases/categories/components/category-menu";
 import { ProductCard } from "@/cases/products/components/product-card";
 import { useProducts } from "@/cases/products/hooks/use-product";
 import { useSearch } from "@/contexts/search-context";
-import { Link } from "react-router-dom";
+
 
 export function ProductListPage() {
   const { data: products, isLoading } = useProducts();
@@ -30,9 +30,10 @@ export function ProductListPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {filteredProducts && filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <Link key={product.id} to={`/product/${product.id}`}>
-                <ProductCard product={product} />
-              </Link>
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
             ))
           ) : (
             <p className="col-span-full text-center text-gray-600">

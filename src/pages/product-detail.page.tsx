@@ -8,9 +8,8 @@ export function ProductDetailPage() {
   const params = useParams<{ id: string }>();
   const productId = params.id;
 
-  // Se não tiver id, nem chama o hook
   const { data: product, isLoading } = useProduct(productId ?? "");
-  const cart = useCart(); // Hook sempre dentro do componente
+  const cart = useCart(); 
 
   if (!productId) {
     return <div className="container mx-auto py-10 text-center">Produto inválido</div>;
