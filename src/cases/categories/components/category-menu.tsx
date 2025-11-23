@@ -35,7 +35,7 @@ export function CategoryMenu() {
 
   return (
     <nav  className="w-full py-4 flex items-center justify-between">
-      <div className="flex flex-col">
+      <div className="flex flex-col pl-16">
         <h5 className="font-medium text-2x1 text-gray-900">Nossos  Produtos</h5>
         <p className="text-sm text-gray-500">Novos produtos todos os dias</p>
       </div>
