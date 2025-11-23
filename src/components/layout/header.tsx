@@ -3,10 +3,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, User } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
+import { useSearch } from "@/contexts/search-context";
 
 export function Header() {
   
   const { cartCount } = useCart();
+  const { query, setQuery } = useSearch();
 
   return (
     <header className="w-full border-b bg-white">
@@ -20,6 +22,8 @@ export function Header() {
             type="text"
             placeholder="Buscar produtos..."
             className="w-full h-11 text-base"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
         </div>
 
