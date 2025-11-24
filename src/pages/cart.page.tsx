@@ -11,7 +11,7 @@ export function CartPage() {
       <h1 className="text-2xl font-bold mb-6">Meu Carrinho</h1>
 
       {cart.length === 0 ? (
-        <p className="text-gray-600">Seu carrinho está vazio 😢</p>
+        <p className="text-gray-600">Seu carrinho está vazio</p>
       ) : (
         <div className="flex flex-col gap-4">
           {cart.map((item) => (

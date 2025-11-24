@@ -1,32 +1,40 @@
 import { useParams } from "react-router-dom";
 import { useProduct } from "@/cases/products/hooks/use-product";
 import { useCart } from "@/contexts/cart-context";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { ProductDetail } from "@/cases/products/components/product-detail";
 import { Button } from "@/components/ui/button";
 import { FormattedNumber, IntlProvider } from "react-intl";
 
 export function ProductDetailPage() {
-  const params = useParams<{ id: string }>();
-  const productId = params.id;
+  const { id } = useParams<{ id: string }>();
+  const cart = useCart();
 
-  const { data: product, isLoading } = useProduct(productId ?? "");
-  const cart = useCart(); 
-
-  if (!productId) {
-    return <div className="container mx-auto py-10 text-center">Produto inválido</div>;
+  if (!id) {
+    return <div className="p-6">Produto inválido.</div>;
   }
 
+  const { data: product, isLoading, error } = useProduct(id);
+  
   if (isLoading) {
-    return <div className="container mx-auto py-10 text-center">Carregando...</div>;
+    return <div className="p-6">Carregando produto...</div>;
   }
 
-  if (!product) {
-    return <div className="container mx-auto py-10 text-center">Produto não encontrado</div>;
+  if (error || !product) {
+    return <div className="p-6">Produto não encontrado.</div>;
   }
 
-  function handleAddToCart() {
+   function handleAddToCart() {
     if (!product || !product.id) return;
     cart.addToCart({
-      id: product.id,
+      id : product.id,
       name: product.name,
       price: product.price,
       image: (product as any).image ?? "",
@@ -35,10 +43,32 @@ export function ProductDetailPage() {
   }
 
   return (
-    <div className="container mx-auto py-10 flex flex-col md:flex-row gap-10">
-      <div className="md:w-1/2">
-        <img src={(product as any).image} alt={product.name} className="w-full rounded-lg" />
+    <div className="p-4">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/products?categoryId=${product.category?.id}`}>
+              {product.category?.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbPage>{product.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="p-8">
+        <ProductDetail product={product} />
       </div>
+      <div className="container mx-auto py-10 flex flex-col md:flex-row gap-10">
 
       <div className="md:w-1/2 flex flex-col gap-4">
         <h1 className="text-3xl font-bold">{product.name}</h1>
@@ -55,5 +85,7 @@ export function ProductDetailPage() {
         </Button>
       </div>
     </div>
+    </div>
+
   );
 }
