@@ -6,7 +6,6 @@ import { useCart } from "@/contexts/cart-context";
 import { useSearch } from "@/contexts/search-context";
 
 export function Header() {
-  
   const { cartCount } = useCart();
   const { query, setQuery } = useSearch();
 
