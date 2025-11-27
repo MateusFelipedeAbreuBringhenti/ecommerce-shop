@@ -5,14 +5,12 @@ import { ProductListPage } from "./pages/product-list.page";
 import { ProductDetailPage } from "./pages/product-detail.page";
 import { CartPage } from "./pages/cart.page";
 import { Header } from "./components/layout/header";
-import { AuthProvider } from "./contexts/auth-context";
 import { SignInPage } from "./pages/signin-page";
 import { SignUpPage } from "./pages/signup-page";
 
 
 function App() {
   return (
-    <AuthProvider>
       <CartProvider>
       
       <SearchProvider>
@@ -33,7 +31,6 @@ function App() {
         </>
       </SearchProvider>
     </CartProvider>
-    </AuthProvider>
   );
 }
 

@@ -50,12 +50,12 @@ export function SignUpForm() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-[85vh] px-4 bg-white">
-      <Card className="w-full max-w-md shadow-xl border border-zinc-200">
+    <div className="flex justify-center items-center min-h-[85vh] px-4 bg-[#1A1A1A]">
+      <Card className="w-full max-w-md shadow-xl border border-zinc-700 bg-[#262626]">
         <CardHeader className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-zinc-800">Crie sua conta</h1>
-          <p className="text-sm text-zinc-500">
-            Ainda não tem uma conta MaterSports?
+          <h1 className="text-2xl font-bold text-zinc-100">Crie sua conta</h1>
+          <p className="text-sm text-zinc-400">
+            Ainda não tem uma conta MeatHouse Shop?
           </p>
         </CardHeader>
 
@@ -77,11 +77,14 @@ export function SignUpForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-700">Nome Completo</FormLabel>
+                    <FormLabel className="text-zinc-300">
+                      Nome Completo
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="text"
                         placeholder="Seu nome completo"
+                        className="bg-[#1F1F1F] border-zinc-700 text-zinc-200 placeholder-zinc-500"
                         {...field}
                       />
                     </FormControl>
@@ -96,11 +99,12 @@ export function SignUpForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-700">E-mail</FormLabel>
+                    <FormLabel className="text-zinc-300">E-mail</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
                         placeholder="seu@email.com"
+                        className="bg-[#1F1F1F] border-zinc-700 text-zinc-200 placeholder-zinc-500"
                         {...field}
                       />
                     </FormControl>
@@ -115,9 +119,14 @@ export function SignUpForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-zinc-700">Senha</FormLabel>
+                    <FormLabel className="text-zinc-300">Senha</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="********" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        className="bg-[#1F1F1F] border-zinc-700 text-zinc-200 placeholder-zinc-500"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -126,7 +135,7 @@ export function SignUpForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-full bg-red-600 hover:bg-red-700 text-white"
                 disabled={isPending}
               >
                 {isPending ? "Cadastrando..." : "Cadastre-se"}
@@ -134,19 +143,19 @@ export function SignUpForm() {
             </form>
           </Form>
 
-          <Separator className="my-6" />
+          <Separator className="my-6 bg-zinc-700" />
 
           <div className="text-center">
-            <h2 className="text-lg font-semibold text-zinc-800 mb-1">
+            <h2 className="text-lg font-semibold text-zinc-100 mb-1">
               Já possui conta?
             </h2>
-            <p className="text-sm text-zinc-500 mb-4">
+            <p className="text-sm text-zinc-400 mb-4">
               Faça login para acessar sua conta.
             </p>
 
             <Button
               variant="outline"
-              className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition"
+              className="w-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition"
               onClick={() => navigate("/signin")}
             >
               Entrar
