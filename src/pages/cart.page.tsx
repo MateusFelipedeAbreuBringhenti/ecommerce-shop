@@ -1,45 +1,59 @@
-import { useCart } from "@/contexts/cart-context";
-import { Button } from "@/components/ui/button";
+import { CartContent } from "@/cases/cart/components/cart-content";
+import { CartEmpty } from "@/cases/cart/components/cart-empty";
+import { useCart } from "@/cases/cart/hooks/use-cart";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export function CartPage() {
-  const { cart, removeFromCart } = useCart();
-
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const { cart } = useCart();
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">Meu Carrinho</h1>
+    <div className="min-h-screen bg-[#1A1A1A]">
+      <div className="max-w-6xl mx-auto px-6 py-10">
 
-      {cart.length === 0 ? (
-        <p className="text-gray-600">Seu carrinho está vazio</p>
-      ) : (
-        <div className="flex flex-col gap-4">
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between border rounded-lg p-4"
-            >
-              <div>
-                <h2 className="text-lg font-semibold">{item.name}</h2>
-                <p className="text-gray-600">
-                  Quantidade: {item.quantity}
-                </p>
-                <p className="text-gray-800 font-medium">
-                  R$ {(item.price * item.quantity).toFixed(2)}
-                </p>
-              </div>
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                href="/"
+                className="text-sm text-zinc-500 hover:text-white transition"
+              >
+                Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
 
-              <Button variant="destructive" onClick={() => removeFromCart(item.id)}>
-                Remover
-              </Button>
+            <BreadcrumbSeparator />
+
+            <BreadcrumbItem>
+              <BreadcrumbPage className="text-sm font-semibold text-white">
+                Meu Carrinho
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <h1 className="text-4xl font-extrabold text-zinc-100 mb-8">
+          Meu Carrinho
+        </h1>
+
+        <div className="bg-black rounded-3xl shadow-xl p-8">
+          {cart.items.length > 0 ? (
+            <CartContent />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20">
+              <CartEmpty />
+
             </div>
-          ))}
-
-          <div className="mt-6 text-xl font-bold">
-            Total: R$ {total.toFixed(2)}
-          </div>
+          )}
         </div>
-      )}
+
+      </div>
     </div>
   );
 }
