@@ -96,6 +96,13 @@ export function Header() {
                   </DropdownMenuItem>
 
                   <DropdownMenuItem
+                    className="cursor-pointer px-3 py-2 hover:bg-zinc-800 rounded"
+                    onClick={() => navigate("/favorites")}
+                  >
+                    Favoritos
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
                     className="cursor-pointer px-3 py-2 hover:bg-red-600 rounded mt-2"
                     onClick={() => {
                       signOut();

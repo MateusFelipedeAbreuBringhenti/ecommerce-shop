@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { ShoppingCart } from "lucide-react";
+import { Beef } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function CartEmpty() {
@@ -11,7 +11,7 @@ export function CartEmpty() {
       <Card className="max-w-2xl bg-[#1A1A1A]">
         <CardContent className="flex flex-col justify-center items-center py-8 space-y-4">
           <div className="w-24 h-24 rounded-full border-4 border-red-500 flex justify-center items-center">
-            <ShoppingCart className="w-12 h-12 text-red-500" />
+            <Beef className="w-12 h-12 text-red-500" />
           </div>
 
           <h3 className="text-center text-xl text-zinc-100 font-semibold">

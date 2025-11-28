@@ -15,7 +15,7 @@ export function OrderContent({ order }: OrderContentProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <Card className="bg-white shadow-md rounded-2xl p-4 space-y-4">
+    <Card className="bg-black text-white shadow-md rounded-2xl p-4 space-y-4">
       <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger asChild>
           <div className="flex justify-between items-center cursor-pointer">
@@ -34,7 +34,7 @@ export function OrderContent({ order }: OrderContentProps) {
             {order.items.map((item) => (
               <div
                 key={item.product.id}
-                className="flex justify-between items-center p-2 bg-zinc-50 rounded-lg"
+                className="flex justify-between items-center p-2 bg-black rounded-lg"
               >
                 <div className="flex flex-col">
                   <span className="font-semibold">{item.product.name}</span>
@@ -43,10 +43,10 @@ export function OrderContent({ order }: OrderContentProps) {
                       {item.product.brand.name}
                     </span>
                   )}
-                  <span className="text-xs text-gray-500">Qtd: {item.quantity}</span>
+                  <span className="text-xs text-gray-100">Qtd: {item.quantity}</span>
                 </div>
 
-                <span className="font-bold text-gray-700">
+                <span className="font-bold text-gray-100">
                   <IntlProvider locale="pt-BR">
                     <FormattedNumber
                       value={item.product.price * item.quantity}
@@ -59,7 +59,7 @@ export function OrderContent({ order }: OrderContentProps) {
             ))}
           </div>
 
-          <div className="flex justify-between mt-4 p-2 border-t font-bold text-gray-800">
+          <div className="flex justify-between mt-4 p-2 border-t font-bold text-green-400">
             <span>Total do Pedido:</span>
             <IntlProvider locale="pt-BR">
               <FormattedNumber
