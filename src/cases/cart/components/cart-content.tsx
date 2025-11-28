@@ -35,9 +35,6 @@ export function CartContent() {
   const totalCard = productsTotal + shippingCost;
   const totalPix = totalCard * 0.9;
 
-  // --------------------------
-  // FRETE
-  // --------------------------
   async function calcularFrete() {
     if (cep.length !== 8) {
       alert("Digite um CEP válido.");
@@ -62,9 +59,6 @@ export function CartContent() {
     }
   }
 
-  // --------------------------
-  // FINALIZAR PEDIDO
-  // --------------------------
   async function handleFinalizeOrder() {
     if (!user) {
       navigate("/signin?redirect=/cart");
@@ -180,10 +174,8 @@ export function CartContent() {
         </CardContent>
       </Card>
 
-      {/* SIDE BAR */}
       <div className="flex flex-col gap-6">
 
-        {/* FRETE */}
         <Card className="bg-black text-white shadow-md rounded-2xl">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Calcular Frete</CardTitle>
@@ -224,7 +216,6 @@ export function CartContent() {
           </CardContent>
         </Card>
 
-        {/* RESUMO */}
         <Card className="bg-black text-white shadow-md rounded-2xl">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Resumo do Pedido</CardTitle>
