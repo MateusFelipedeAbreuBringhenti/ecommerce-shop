@@ -92,7 +92,12 @@ export function SignInForm() {
                   <FormItem>
                     <FormLabel className="text-zinc-300">E-mail</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="seu@email.com" {...field}/>
+                      <Input
+                        type="email"
+                        placeholder="seu@email.com"
+                        {...field}
+                        className="bg-zinc-800 text-zinc-100 border-zinc-600 placeholder:text-zinc-400"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,7 +111,12 @@ export function SignInForm() {
                   <FormItem>
                     <FormLabel className="text-zinc-300">Senha</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="********" {...field}/>
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                        className="bg-zinc-800 text-zinc-100 border-zinc-600 placeholder:text-zinc-400"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

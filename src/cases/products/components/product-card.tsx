@@ -27,12 +27,14 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Card className="flex flex-col justify-between bg-black rounded-xl border-0 shadow-[0_0_15px_rgba(0,0,0,0.7)]">
-      <CardHeader className="py-0 h-[210px] flex items-center justify-center  text-white overflow-hidden rounded-t-xl">
+    <Card className="relative flex flex-col justify-between bg-black rounded-xl border-0 shadow-[0_0_15px_rgba(0,0,0,0.7)]">
+      
+      {/* IMAGEM */}
+      <CardHeader className="py-0 h-[210px] flex items-center justify-center text-white overflow-hidden rounded-t-xl">
         <Link to={`/product/${product.id}`}>
           {imagePath ? (
             <img
-              className="cover w-full h-full object-cover rounded-md"
+              className="w-full h-full object-cover rounded-md"
               src={imagePath}
               alt={product.name}
             />
@@ -44,6 +46,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </Link>
       </CardHeader>
 
+      {/* CONTEÚDO */}
       <CardContent>
         <Link to={`/product/${product.id}`}>
           <h4 className="text-sm font-semibold mb-4 min-h-10 text-white">
@@ -67,8 +70,8 @@ export function ProductCard({ product }: ProductCardProps) {
               <IntlProvider locale="pt-BR">
                 <FormattedNumber value={product.price} style="currency" currency="BRL" />
               </IntlProvider>
-            </span>
-            {" "}em 10x de{" "}
+            </span>{" "}
+            em 10x de{" "}
             <span className="font-semibold text-white">
               <IntlProvider locale="pt-BR">
                 <FormattedNumber value={product.price / 10} style="currency" currency="BRL" />
@@ -80,14 +83,13 @@ export function ProductCard({ product }: ProductCardProps) {
             ou{" "}
             <IntlProvider locale="pt-BR">
               <FormattedNumber value={product.price * 0.9} style="currency" currency="BRL" />
-            </IntlProvider>
-            {" "}no PIX
+            </IntlProvider>{" "}
+            no PIX
           </p>
-
         </div>
 
         <div className="mt-3">
-          <Button onClick={handleAddToCart} className="w-full bg-zinc-900 text-white hover:bg-black">
+          <Button className="w-full bg-zinc-900 text-white hover:bg-black" onClick={handleAddToCart}>
             Adicionar ao carrinho
           </Button>
         </div>

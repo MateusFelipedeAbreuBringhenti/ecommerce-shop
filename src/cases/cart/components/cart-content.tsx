@@ -9,66 +9,104 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group";
 import { MapPin, Trash2 } from "lucide-react";
 import { FormattedNumber, IntlProvider } from "react-intl";
-import { useOrders } from "@/cases/orders/hooks/use-order";
+import { useCreateOrder } from "@/cases/orders/hooks/use-order";
+import type { OrderDTO, OrderItemDTO } from "@/cases/orders/dtos/order.dto";
+import type { CustomerDTO } from "@/cases/customers/dtos/customer.dto";
+import { useAuth } from "@/cases/auth/hooks/use-auth";
+
 
 export function CartContent() {
+  const { user } = useAuth();
   const { cart, removeProductCart, updateProductQuantity, clearCart } = useCart();
-  const { createOrder } = useOrders();
+  const createOrder = useCreateOrder();
   const navigate = useNavigate();
-  const [shippingError, setShippingError] = useState("");
+
   const [dataCep, setDataCep] = useState<any>(null);
-
-
-  const bucketBaseURL = import.meta.env.VITE_BUCKET_BASE_URL;
-
   const [cep, setCep] = useState("");
   const [shippingCost, setShippingCost] = useState(0);
+
+  const bucketBaseURL = import.meta.env.VITE_BUCKET_BASE_URL;
 
   const productsTotal = cart.items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
+
   const totalCard = productsTotal + shippingCost;
   const totalPix = totalCard * 0.9;
 
-async function calcularFrete() {
-  if (cep.length !== 8) {
-    alert("Digite um CEP válido.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    const data = await response.json();
-
-    if (data.erro) {
-      alert("CEP não encontrado.");
-      setDataCep(null);
+  // --------------------------
+  // FRETE
+  // --------------------------
+  async function calcularFrete() {
+    if (cep.length !== 8) {
+      alert("Digite um CEP válido.");
       return;
     }
 
-    setDataCep(data); 
-    setShippingCost(cep.startsWith("85") ? 15 : 25);
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = await response.json();
 
-  } catch (err) {
-    alert("Erro ao buscar CEP. Tente novamente.");
+      if (data.erro) {
+        alert("CEP não encontrado.");
+        setDataCep(null);
+        return;
+      }
+
+      setDataCep(data);
+      setShippingCost(cep.startsWith("85") ? 15 : 25);
+
+    } catch (err) {
+      alert("Erro ao buscar CEP. Tente novamente.");
+    }
   }
-}
 
+  // --------------------------
+  // FINALIZAR PEDIDO
+  // --------------------------
+  async function handleFinalizeOrder() {
+    if (!user) {
+      navigate("/signin?redirect=/cart");
+      return;
+    }
 
-  function handleFinalizeOrder() {
     if (cart.items.length === 0) {
       alert("Seu carrinho está vazio!");
       return;
     }
-    if (!cep || shippingCost === 0) {
-      alert("Por favor, calcule o frete antes de finalizar o pedido.");
+
+    if (cep.length !== 8) {
+      alert("Digite um CEP válido antes de finalizar o pedido.");
       return;
     }
 
-    createOrder(cart.items, totalCard, shippingCost);
-    clearCart();
-    navigate("/orders");
+    const frete = cep.startsWith("85") ? 15 : 25;
+
+    const customer: CustomerDTO = {
+      id: user.id,
+      name: user.name,
+    };
+
+    const items: OrderItemDTO[] = cart.items.map((item) => ({
+      product: item.product,
+      quantity: item.quantity,
+      value: item.product.price,
+    }));
+
+    const order: OrderDTO = {
+      customer,
+      status: "NEW",
+      items,
+      shippingCost: frete,
+    };
+
+    createOrder.mutate(order, {
+      onSuccess: () => {
+        clearCart();
+        navigate("/orders");
+      },
+    });
   }
 
   return (
@@ -117,7 +155,7 @@ async function calcularFrete() {
                     </div>
                   </div>
 
-                  <div className="flex items-center text-black  gap-3">
+                  <div className="flex items-center text-black gap-3">
                     <QuantityInput
                       initialQuantity={item.quantity}
                       onChange={(value) => updateProductQuantity(item.product.id!, value)}
@@ -142,7 +180,10 @@ async function calcularFrete() {
         </CardContent>
       </Card>
 
+      {/* SIDE BAR */}
       <div className="flex flex-col gap-6">
+
+        {/* FRETE */}
         <Card className="bg-black text-white shadow-md rounded-2xl">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Calcular Frete</CardTitle>
@@ -183,6 +224,7 @@ async function calcularFrete() {
           </CardContent>
         </Card>
 
+        {/* RESUMO */}
         <Card className="bg-black text-white shadow-md rounded-2xl">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Resumo do Pedido</CardTitle>
