@@ -133,7 +133,7 @@ export function Header() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-2 mt-2">
+        <div className="flex flex-col items-center gap-2 mt-2 text-white">
           <Input
             type="text"
             placeholder="Buscar produtos..."
